@@ -1,0 +1,95 @@
+{
+  "title": "ThermalTrace Matter bridge",
+  "description": "Expose ThermalTrace share-link sensors to Matter (Apple Home, Google Home, Alexa). Not CSA-certified. Probes stay on ESP/Arduino; this plugin only polls your share link.",
+  "type": "object",
+  "required": ["shareToken"],
+  "properties": {
+    "name": {
+      "title": "Plugin Name",
+      "description": "Plugin name",
+      "type": "string",
+      "readOnly": true,
+      "ui:widget": "hidden"
+    },
+    "type": {
+      "title": "Plugin Type",
+      "description": "Plugin type",
+      "type": "string",
+      "readOnly": true,
+      "ui:widget": "hidden"
+    },
+    "host": {
+      "title": "ThermalTrace host",
+      "description": "Origin of your ThermalTrace deployment (no trailing slash). Default is the hosted app.",
+      "type": "string",
+      "default": "https://thermaltrace.dev"
+    },
+    "shareToken": {
+      "title": "Share link token",
+      "description": "Token from Dashboard → Share (the YOUR_TOKEN part of /share/YOUR_TOKEN). Free includes one family live link.",
+      "type": "string"
+    },
+    "pollIntervalSeconds": {
+      "title": "Poll interval (seconds)",
+      "description": "How often to GET /api/share/{token}/readings. Keep ≥60. Freeze SMS still comes from ThermalTrace push ingest, not this poll.",
+      "type": "integer",
+      "default": 120,
+      "minimum": 60,
+      "maximum": 3600
+    },
+    "enableSnoozeSwitch": {
+      "title": "Snooze switch",
+      "description": "Expose an On/Off switch that POSTs Pro inbound webhook snooze when turned on (momentary).",
+      "type": "boolean",
+      "default": false
+    },
+    "inboundWebhookToken": {
+      "title": "Inbound webhook token",
+      "description": "Pro inbound webhook token from Dashboard → Share (required for snooze switch).",
+      "type": "string",
+      "default": ""
+    },
+    "inboundSigningSecret": {
+      "title": "Inbound signing secret",
+      "description": "HMAC secret for X-ThermalTrace-Signature on inbound POSTs.",
+      "type": "string",
+      "default": ""
+    },
+    "snoozeHours": {
+      "title": "Snooze hours",
+      "description": "Hours to snooze freeze/leak alerts when the Matter switch is toggled on.",
+      "type": "integer",
+      "default": 24,
+      "minimum": 1,
+      "maximum": 168
+    },
+    "whiteList": {
+      "title": "White List",
+      "description": "Only expose devices whose display name is listed. Empty = all mapped sensors.",
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "selectFrom": "name"
+    },
+    "blackList": {
+      "title": "Black List",
+      "description": "Hide devices whose display name is listed.",
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "selectFrom": "name"
+    },
+    "debug": {
+      "title": "Enable Debug",
+      "description": "Verbose plugin logging.",
+      "type": "boolean",
+      "default": false
+    },
+    "unregisterOnShutdown": {
+      "title": "Unregister On Shutdown",
+      "description": "Unregister all devices on shutdown (debug only).",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

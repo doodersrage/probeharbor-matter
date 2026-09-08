@@ -1,0 +1,15 @@
+{
+  "name": "matterbridge-thermaltrace",
+  "type": "DynamicPlatform",
+  "host": "https://thermaltrace.dev",
+  "shareToken": "",
+  "pollIntervalSeconds": 120,
+  "enableSnoozeSwitch": false,
+  "inboundWebhookToken": "",
+  "inboundSigningSecret": "",
+  "snoozeHours": 24,
+  "whiteList": [],
+  "blackList": [],
+  "debug": false,
+  "unregisterOnShutdown": false
+}

@@ -1,0 +1,68 @@
+{
+  "name": "matterbridge-thermaltrace",
+  "version": "0.1.0",
+  "description": "Matterbridge plugin: expose ThermalTrace share-link sensors to Apple Home, Google Home, Alexa, and other Matter controllers",
+  "author": "https://github.com/doodersrage",
+  "license": "MIT",
+  "homepage": "https://thermaltrace.dev/integrations/matter",
+  "type": "module",
+  "main": "dist/module.js",
+  "types": "dist/module.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/module.js",
+      "types": "./dist/module.d.ts"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doodersrage/thermaltrace-matter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/doodersrage/thermaltrace-matter/issues"
+  },
+  "keywords": [
+    "matterbridge",
+    "matter",
+    "matter.js",
+    "thermaltrace",
+    "homekit",
+    "apple-home",
+    "google-home",
+    "alexa",
+    "freeze",
+    "leak",
+    "garage",
+    "sensor",
+    "bridge"
+  ],
+  "engines": {
+    "node": ">=20.19.0 <21.0.0 || >=22.13.0 <23.0.0 || >=24.0.0 <25.0.0 || >=26.0.0 <27.0.0"
+  },
+  "files": [
+    "dist",
+    "matterbridge-thermaltrace.config.json",
+    "matterbridge-thermaltrace.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "clean": "rm -rf dist",
+    "add": "matterbridge --add .",
+    "remove": "matterbridge --remove .",
+    "prepublishOnly": "npm run clean && npm run build && npm run test"
+  },
+  "peerDependencies": {
+    "matterbridge": ">=3.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "matterbridge": "^3.10.8",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  }
+}
