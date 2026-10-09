@@ -1,5 +1,5 @@
 /**
- * Matterbridge plugin entry: ThermalTrace share-link → Matter sensors.
+ * Matterbridge plugin entry: ProbeHarbor share-link → Matter sensors.
  */
 import type { PlatformMatterbridge } from "matterbridge";
 import type { AnsiLogger } from "matterbridge/logger";

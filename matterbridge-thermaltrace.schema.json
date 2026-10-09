@@ -1,6 +1,6 @@
 {
-  "title": "ThermalTrace Matter bridge",
-  "description": "Expose ThermalTrace share-link sensors to Matter (Apple Home, Google Home, Alexa). Not CSA-certified. Probes stay on ESP/Arduino; this plugin only polls your share link.",
+  "title": "ProbeHarbor Matter bridge",
+  "description": "Expose ProbeHarbor share-link sensors to Matter (Apple Home, Google Home, Alexa). Not CSA-certified. Probes stay on ESP/Arduino; this plugin only polls your share link.",
   "type": "object",
   "required": ["shareToken"],
   "properties": {
@@ -19,10 +19,10 @@
       "ui:widget": "hidden"
     },
     "host": {
-      "title": "ThermalTrace host",
-      "description": "Origin of your ThermalTrace deployment (no trailing slash). Default is the hosted app.",
+      "title": "ProbeHarbor host",
+      "description": "Origin of your ProbeHarbor deployment (no trailing slash). Default is the hosted app.",
       "type": "string",
-      "default": "https://thermaltrace.dev"
+      "default": "https://probeharbor.dev"
     },
     "shareToken": {
       "title": "Share link token",
@@ -31,7 +31,7 @@
     },
     "pollIntervalSeconds": {
       "title": "Poll interval (seconds)",
-      "description": "How often to GET /api/share/{token}/readings. Keep ≥60. Freeze SMS still comes from ThermalTrace push ingest, not this poll.",
+      "description": "How often to GET /api/share/{token}/readings. Keep ≥60. Freeze SMS still comes from ProbeHarbor push ingest, not this poll.",
       "type": "integer",
       "default": 120,
       "minimum": 60,
@@ -51,7 +51,7 @@
     },
     "inboundSigningSecret": {
       "title": "Inbound signing secret",
-      "description": "HMAC secret for X-ThermalTrace-Signature on inbound POSTs.",
+      "description": "HMAC secret for X-ProbeHarbor-Signature on inbound POSTs.",
       "type": "string",
       "default": ""
     },

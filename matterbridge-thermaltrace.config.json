@@ -1,7 +1,7 @@
 {
   "name": "matterbridge-thermaltrace",
   "type": "DynamicPlatform",
-  "host": "https://thermaltrace.dev",
+  "host": "https://probeharbor.dev",
   "shareToken": "",
   "pollIntervalSeconds": 120,
   "enableSnoozeSwitch": false,

@@ -59,8 +59,8 @@ export function readingSerial(reading: ShareReading): string {
 
 /**
  * Matter Contact Sensor BooleanState: TRUE = closed/contact.
- * ThermalTrace door true = open → invert.
- * ThermalTrace power true = powered → keep (closed when on).
+ * ProbeHarbor door true = open → invert.
+ * ProbeHarbor power true = powered → keep (closed when on).
  */
 export function contactStateValue(
   kind: "door" | "power",

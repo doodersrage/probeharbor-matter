@@ -35,7 +35,7 @@ export async function postSnooze(
       "Content-Type": "application/json",
       Accept: "application/json",
       "User-Agent": "matterbridge-thermaltrace/0.1.0",
-      "X-ThermalTrace-Signature": signInboundBody(secret, body),
+      "X-ProbeHarbor-Signature": signInboundBody(secret, body),
       "X-Signature": signInboundBody(secret, body),
     },
     body,

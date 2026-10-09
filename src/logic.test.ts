@@ -24,20 +24,20 @@ describe("normalizeShareToken", () => {
 
   it("extracts token from share URL", () => {
     expect(
-      normalizeShareToken("https://thermaltrace.dev/share/family-live-xyz"),
+      normalizeShareToken("https://probeharbor.dev/share/family-live-xyz"),
     ).toBe("family-live-xyz");
   });
 });
 
 describe("buildShareReadingsUrl", () => {
   it("builds the share readings path", () => {
-    expect(buildShareReadingsUrl("https://thermaltrace.dev/", "tok")).toBe(
-      "https://thermaltrace.dev/api/share/tok/readings",
+    expect(buildShareReadingsUrl("https://probeharbor.dev/", "tok")).toBe(
+      "https://probeharbor.dev/api/share/tok/readings",
     );
   });
 
   it("rejects empty token", () => {
-    expect(() => buildShareReadingsUrl("https://thermaltrace.dev", "")).toThrow(
+    expect(() => buildShareReadingsUrl("https://probeharbor.dev", "")).toThrow(
       /shareToken/i,
     );
   });
@@ -143,8 +143,8 @@ describe("sensor map", () => {
 
 describe("inbound snooze helpers", () => {
   it("builds inbound URL", () => {
-    expect(buildInboundUrl("https://thermaltrace.dev/", "wh_abc")).toBe(
-      "https://thermaltrace.dev/api/inbound/wh_abc",
+    expect(buildInboundUrl("https://probeharbor.dev/", "wh_abc")).toBe(
+      "https://probeharbor.dev/api/inbound/wh_abc",
     );
   });
 

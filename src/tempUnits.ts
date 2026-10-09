@@ -4,7 +4,7 @@ export function fahrenheitToCelsiusHundredths(tempF: number): number {
   return Math.round(celsius * 100);
 }
 
-/** Assume °F when unit is missing or looks like Fahrenheit (ThermalTrace default). */
+/** Assume °F when unit is missing or looks like Fahrenheit (ProbeHarbor default). */
 export function toCelsiusHundredths(
   value: number,
   unit: string | null | undefined,

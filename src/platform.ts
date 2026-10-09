@@ -38,11 +38,11 @@ export type ThermalTracePlatformConfig = BasePlatformConfig & {
 
 const SOFTWARE_VERSION = 100;
 const SOFTWARE_VERSION_STRING = "0.1.0";
-const VENDOR_NAME = "ThermalTrace";
-const PRODUCT_NAME = "ThermalTrace Matter";
+const VENDOR_NAME = "ProbeHarbor";
+const PRODUCT_NAME = "ProbeHarbor Matter";
 
 /**
- * Matterbridge DynamicPlatform that polls ThermalTrace share readings and
+ * Matterbridge DynamicPlatform that polls ProbeHarbor share readings and
  * exposes temperature, humidity, leak, door, power, and motion as Matter devices.
  *
  * Not CSA-certified. Runs on a LAN host (Pi / NAS / PC) — not on Cloudflare Workers.
@@ -69,7 +69,7 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
       );
     }
 
-    this.log.info("Initializing ThermalTrace Matter platform…");
+    this.log.info("Initializing ProbeHarbor Matter platform…");
   }
 
   private get ttConfig(): ThermalTracePlatformConfig {
@@ -77,7 +77,7 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
   }
 
   private get host(): string {
-    return this.ttConfig.host?.trim() || "https://thermaltrace.dev";
+    return this.ttConfig.host?.trim() || "https://probeharbor.dev";
   }
 
   private get shareToken(): string {
@@ -344,7 +344,7 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
       return;
     }
 
-    const name = "ThermalTrace Snooze";
+    const name = "ProbeHarbor Snooze";
     const serial = "TT-SNOOZE";
     this.setSelectDevice(serial, name);
     if (!this.validateDevice([name, serial])) return;
@@ -364,7 +364,7 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
         serial,
         vendorId,
         VENDOR_NAME,
-        "ThermalTrace Snooze",
+        "ProbeHarbor Snooze",
         SOFTWARE_VERSION,
         SOFTWARE_VERSION_STRING,
       )
@@ -380,7 +380,7 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
             signingSecret: secret,
             hours,
           });
-          this.log.notice("Snooze accepted by ThermalTrace");
+          this.log.notice("Snooze accepted by ProbeHarbor");
         } catch (err) {
           const message = err instanceof Error ? err.message : String(err);
           this.log.error(`Snooze failed: ${message}`);
@@ -398,6 +398,6 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
 
     await this.registerDevice(endpoint);
     this.snoozeEndpoint = endpoint;
-    this.log.notice("Registered ThermalTrace Snooze switch (momentary)");
+    this.log.notice("Registered ProbeHarbor Snooze switch (momentary)");
   }
 }

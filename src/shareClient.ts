@@ -1,4 +1,4 @@
-/** Supported ThermalTrace sensor kinds for Matter mapping. */
+/** Supported ProbeHarbor sensor kinds for Matter mapping. */
 export const MATTER_SENSOR_KINDS = [
   "temperature",
   "humidity",
@@ -47,7 +47,7 @@ export function normalizeShareToken(raw: string): string {
     if (trimmed.includes("://") || trimmed.startsWith("/")) {
       const url = trimmed.includes("://")
         ? new URL(trimmed)
-        : new URL(trimmed, "https://thermaltrace.dev");
+        : new URL(trimmed, "https://probeharbor.dev");
       const parts = url.pathname.split("/").filter(Boolean);
       const shareIdx = parts.indexOf("share");
       if (shareIdx >= 0 && parts[shareIdx + 1]) {
@@ -61,7 +61,7 @@ export function normalizeShareToken(raw: string): string {
 }
 
 export function normalizeHost(host: string): string {
-  const trimmed = host.trim() || "https://thermaltrace.dev";
+  const trimmed = host.trim() || "https://probeharbor.dev";
   return trimmed.replace(/\/+$/, "");
 }
 
