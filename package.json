@@ -54,14 +54,12 @@
     "clean": "rm -rf dist",
     "add": "matterbridge --add .",
     "remove": "matterbridge --remove .",
-    "prepublishOnly": "npm run clean && npm run build && npm run test"
-  },
-  "peerDependencies": {
-    "matterbridge": ">=3.10.0"
+    "prepublishOnly": "npm run clean && npm run build && npm run test",
+    "link:matterbridge": "npm install --no-save matterbridge@^3.10.8",
+    "pack:plugin": "npm run clean && npm run build && npm pack"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",
-    "matterbridge": "^3.10.8",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   }

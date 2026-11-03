@@ -38,11 +38,26 @@ Optional (Pro): a momentary **Snooze** On/Off switch that POSTs `/api/inbound/{t
 # On the host that already runs Matterbridge:
 cd ~/matterbridge-plugins   # or any folder you prefer
 git clone https://github.com/doodersrage/probeharbor-matter.git
-cd thermaltrace-matter
+cd probeharbor-matter
 npm install
+npm link matterbridge        # uses the host's global Matterbridge for build-time types
 npm run build
 matterbridge --add .
 ```
+
+### From a .tgz (Matterbridge frontend upload)
+
+Build the tarball with npm, not with `tar` (a hand-made archive picks up `node_modules/` and whatever stale `dist/` is lying around):
+
+```bash
+npm install
+npm run link:matterbridge    # or: npm link matterbridge
+npm run pack:plugin          # → matterbridge-thermaltrace-<version>.tgz
+```
+
+Upload that file in the Matterbridge frontend under **Plugins → Install**, then restart.
+
+> Matterbridge rejects any plugin whose `package.json` lists `matterbridge` (or `@matter*` / `@project-chip*`) in **any** dependency section, including dev and peer deps. That's why this repo doesn't declare it, and you have to link or install it with `--no-save` for local builds.
 
 Restart Matterbridge (or use the frontend **Restart**). Open the plugin config and set:
 
@@ -80,12 +95,13 @@ Share readings are rate-limited (~60 req/min). A 60–300 s poll is safe.
 
 ```bash
 npm install
+npm run link:matterbridge   # installs matterbridge with --no-save (rerun after each npm install)
 npm run build
 npm test
 npm run typecheck
 ```
 
-Pure mapping / HTTP helpers are unit-tested without a live Matter fabric. Platform code expects Matterbridge ≥ 3.10 as a peer.
+Pure mapping / HTTP helpers are unit-tested without a live Matter fabric. Platform code expects Matterbridge ≥ 3.10 at runtime (provided by the host, never declared as a dependency).
 
 ## Related
 
