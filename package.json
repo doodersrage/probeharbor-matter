@@ -1,6 +1,6 @@
 {
   "name": "matterbridge-thermaltrace",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Matterbridge plugin: expose ProbeHarbor share-link sensors to Apple Home, Google Home, Alexa, and other Matter controllers",
   "author": "https://github.com/doodersrage",
   "license": "MIT",

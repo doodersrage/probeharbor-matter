@@ -14,6 +14,7 @@ import {
 import type { AnsiLogger, LogLevel } from "matterbridge/logger";
 import {
   BooleanState,
+  BridgedDeviceBasicInformation,
   OccupancySensing,
   OnOff,
   RelativeHumidityMeasurement,
@@ -36,8 +37,8 @@ export type ThermalTracePlatformConfig = BasePlatformConfig & {
   blackList?: string[];
 };
 
-const SOFTWARE_VERSION = 100;
-const SOFTWARE_VERSION_STRING = "0.1.0";
+const SOFTWARE_VERSION = 101;
+const SOFTWARE_VERSION_STRING = "0.1.1";
 const VENDOR_NAME = "ProbeHarbor";
 const PRODUCT_NAME = "ProbeHarbor Matter";
 
@@ -175,6 +176,7 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
       await this.registerDevice(endpoint);
       this.endpoints.set(plan.id, endpoint);
       this.log.notice(`Registered ${plan.role} device: ${plan.name}`);
+      await this.applyNodeLabel(endpoint, plan);
     }
 
     await this.applyPlan(endpoint, plan);
@@ -289,6 +291,29 @@ export class ThermalTracePlatform extends MatterbridgeDynamicPlatform {
       .createDefaultPowerSourceWiredClusterServer()
       .createDefaultOccupancySensingClusterServer(plan.occupied ?? false)
       .addRequiredClusterServers();
+  }
+
+  /**
+   * The endpoint is created with the long name so its uniqueId (built from the
+   * name) stays the same as in 0.1.0 and controllers keep the pairing. The
+   * shorter name only replaces the nodeLabel that controllers display.
+   */
+  private async applyNodeLabel(
+    endpoint: MatterbridgeEndpoint,
+    plan: BridgedSensorPlan,
+  ): Promise<void> {
+    if (plan.label === plan.name.slice(0, 32)) return;
+    try {
+      await endpoint.setAttribute(
+        BridgedDeviceBasicInformation,
+        "nodeLabel",
+        plan.label,
+        this.log,
+      );
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      this.log.warn(`Failed to set the label for ${plan.name}: ${message}`);
+    }
   }
 
   private async applyPlan(

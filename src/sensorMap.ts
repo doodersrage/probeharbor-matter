@@ -18,8 +18,14 @@ export type BridgedSensorRole =
 export type BridgedSensorPlan = {
   /** Stable Matter storage / serial id */
   id: string;
-  /** Human-readable name for Apple Home / Matterbridge select */
+  /**
+   * Long name ("<device> <label>"). Matterbridge builds the Matter uniqueId from
+   * it, so it must not change, or controllers see a new device. Also used for
+   * Matterbridge's device select and white/black lists.
+   */
   name: string;
+  /** Short name sent to controllers as the Matter nodeLabel (max 32 chars). */
+  label: string;
   kind: MatterSensorKind;
   role: BridgedSensorRole;
   serial: string;
@@ -52,6 +58,18 @@ export function readingDisplayName(reading: ShareReading): string {
   return `${reading.device} ${label}`.trim();
 }
 
+/**
+ * The name controllers show by default. Sensor labels often already start
+ * with the device name ("House ESP32-S3 humidity" on "House ESP32-S3"), so
+ * the device name isn't repeated in front of them.
+ */
+export function readingShortName(reading: ShareReading): string {
+  const device = reading.device.trim();
+  const label = reading.label?.trim() || reading.key;
+  const short = label.toLowerCase().startsWith(device.toLowerCase()) ? label : `${device} ${label}`.trim();
+  return short.slice(0, 32).trim();
+}
+
 export function readingSerial(reading: ShareReading): string {
   const id = readingDeviceId(reading).replace(/__/g, "-").toUpperCase();
   return `TT-${id}`.slice(0, 32);
@@ -75,6 +93,7 @@ export function planFromReading(reading: ShareReading): BridgedSensorPlan | null
 
   const id = readingDeviceId(reading);
   const name = readingDisplayName(reading);
+  const label = readingShortName(reading);
   const serial = readingSerial(reading);
   const kind = reading.kind;
 
@@ -85,6 +104,7 @@ export function planFromReading(reading: ShareReading): BridgedSensorPlan | null
     return {
       id,
       name,
+      label,
       kind,
       role: "temperature",
       serial,
@@ -99,6 +119,7 @@ export function planFromReading(reading: ShareReading): BridgedSensorPlan | null
     return {
       id,
       name,
+      label,
       kind,
       role: "humidity",
       serial,
@@ -111,6 +132,7 @@ export function planFromReading(reading: ShareReading): BridgedSensorPlan | null
     return {
       id,
       name,
+      label,
       kind,
       role: "leak",
       serial,
@@ -123,6 +145,7 @@ export function planFromReading(reading: ShareReading): BridgedSensorPlan | null
     return {
       id,
       name,
+      label,
       kind,
       role: "contact",
       serial,
@@ -135,6 +158,7 @@ export function planFromReading(reading: ShareReading): BridgedSensorPlan | null
     return {
       id,
       name,
+      label,
       kind,
       role: "occupancy",
       serial,

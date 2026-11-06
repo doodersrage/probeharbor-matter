@@ -153,3 +153,40 @@ describe("inbound snooze helpers", () => {
     expect(sig).toMatch(/^[a-f0-9]{64}$/);
   });
 });
+
+describe("names and identity", () => {
+  const reading = (device: string, label: string | null, key = "temp-air", kind = "temperature") => ({
+    device,
+    key,
+    label,
+    kind,
+    unit: "°F",
+    value_num: 70,
+    value_bool: null,
+    value_text: null,
+    recorded_at: "2026-11-06T00:00:00Z",
+  });
+
+  it("doesn't repeat the device name in the label controllers show", () => {
+    expect(planFromReading(reading("House ESP32-S3", "House ESP32-S3"))?.label).toBe("House ESP32-S3");
+    expect(
+      planFromReading(reading("House ESP32-S3", "House ESP32-S3 humidity", "humidity-air", "humidity"))?.label,
+    ).toBe("House ESP32-S3 humidity");
+    expect(planFromReading(reading("Garage", "Bay avg"))?.label).toBe("Garage Bay avg");
+    expect(planFromReading(reading("Garage", null, "temp1"))?.label).toBe("Garage temp1");
+  });
+
+  it("keeps labels within Matter's 32 characters", () => {
+    const label = planFromReading(reading("Garage Door Probe", "Garage Door Probe Garage Door Temperature"))?.label;
+    expect(label!.length).toBeLessThanOrEqual(32);
+  });
+
+  // The long name and serial feed Matterbridge's uniqueId. Changing them makes
+  // controllers (e.g. Google Home) see every sensor as a new device.
+  it("keeps the 0.1.0 name and serial, so paired devices keep their identity", () => {
+    const plan = planFromReading(reading("House ESP32-S3", "House ESP32-S3"));
+    expect(plan?.name).toBe("House ESP32-S3 House ESP32-S3");
+    expect(plan?.serial).toBe("TT-HOUSE-ESP32-S3-TEMP-AIR-TEMPE");
+    expect(plan?.id).toBe("house-esp32-s3__temp-air__temperature");
+  });
+});
